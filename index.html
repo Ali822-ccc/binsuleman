@@ -1641,6 +1641,285 @@
                 padding: 4px 10px;
             }
         }
+
+        /* ============================================================
+                   PRODUCT DETAIL MODAL
+                   ============================================================ */
+        .product-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition);
+        }
+        .product-modal.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .product-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(17, 17, 17, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .product-modal-container {
+            position: relative;
+            background: var(--card);
+            width: 92%;
+            max-width: 980px;
+            max-height: 85vh;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            border: 1px solid var(--border);
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: 1.1fr 1.2fr;
+            gap: 40px;
+            padding: 40px;
+            transform: translateY(40px) scale(0.96);
+            transition: transform var(--transition);
+            z-index: 2001;
+        }
+        .product-modal.open .product-modal-container {
+            transform: translateY(0) scale(1);
+        }
+        .product-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+        }
+        .product-modal-close:hover {
+            color: #fff;
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Modal Left - Gallery */
+        .modal-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .modal-gallery-main {
+            aspect-ratio: 4/3;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg);
+        }
+        .modal-gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .modal-gallery-thumbs {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .modal-gallery-thumbs::-webkit-scrollbar {
+            height: 4px;
+        }
+        .modal-gallery-thumbs::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+        .modal-thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .modal-thumb.active {
+            border-color: var(--primary);
+        }
+        .modal-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Modal Right - Details & Tabs */
+        .modal-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .modal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(208, 49, 30, 0.08);
+            border: 1px solid rgba(208, 49, 30, 0.12);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            width: fit-content;
+            letter-spacing: 0.5px;
+        }
+        .modal-details h2 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+        .modal-details .description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Tabs styling */
+        .modal-tabs-header {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            gap: 20px;
+        }
+        .modal-tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 0;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+        .modal-tab-btn.active {
+            color: var(--primary);
+        }
+        .modal-tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        .modal-tab-btn.active::after {
+            width: 100%;
+        }
+        .modal-tab-pane {
+            display: none;
+            padding-top: 15px;
+            animation: fadeIn 0.4s ease;
+        }
+        .modal-tab-pane.active {
+            display: block;
+        }
+
+        /* Specs table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .specs-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+        .specs-table tr:last-child {
+            border-bottom: none;
+        }
+        .specs-table td {
+            padding: 8px 0;
+        }
+        .specs-table td.label {
+            font-weight: 600;
+            color: var(--text-primary);
+            width: 45%;
+        }
+        .specs-table td.value {
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Other tabs content */
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .packaging-text {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Modal Footer / Action */
+        .modal-action {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+        }
+        .modal-action .btn {
+            padding: 12px 28px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Modal */
+        @media (max-width: 860px) {
+            .product-modal-container {
+                grid-template-columns: 1fr;
+                gap: 28px;
+                padding: 24px;
+                max-height: 90vh;
+            }
+            .product-modal-close {
+                top: 12px;
+                right: 12px;
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
+            }
+            .modal-details h2 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2245,7 +2524,7 @@
                             <div class="icon"><i class="fas fa-phone"></i></div>
                             <div>
                                 <h4>Phone</h4>
-                                <p>+92 42 1234 5678</p>
+                                <p>+92 30 0023 5642</p>
                             </div>
                         </div>
                         <div class="detail">
@@ -2287,7 +2566,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone</label>
-                                <input type="tel" id="phone" placeholder="+92 300 1234567" />
+                                <input type="tel" id="phone" placeholder="+92 300 0235642" />
                             </div>
                         </div>
                         <div class="form-row">
@@ -2358,7 +2637,7 @@
                     <h4>Contact</h4>
                     <ul>
                         <li style="font-size:0.9rem;font-weight:300;">info@binsuleman.com</li>
-                        <li style="font-size:0.9rem;font-weight:300;">+92 42 1234 5678</li>
+                        <li style="font-size:0.9rem;font-weight:300;">+92 30 0023 5642</li>
                         <li style="font-size:0.9rem;font-weight:300;">Lahore, Pakistan</li>
                     </ul>
                     <div style="margin-top:16px;">
